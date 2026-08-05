@@ -1,0 +1,6 @@
+rtspTransports: [tcp]
+rtspAddress: :8554
+
+paths:
+  shift-count:
+    source: publisher
