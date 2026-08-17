@@ -1,0 +1,17 @@
+[Unit]
+Description=MediaMTX RTSP server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=plc-kpi
+Group=plc-kpi
+ExecStart=/usr/local/bin/mediamtx /etc/plc-kpi/mediamtx.yml
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+[Unit]
+Description=PLC shift-count RTSP publisher
+After=network-online.target mediamtx.service
+Wants=network-online.target
+Requires=mediamtx.service
+
+[Service]
+Type=simple
+User=plc-kpi
+Group=plc-kpi
+EnvironmentFile=/etc/plc-kpi/shift-monitor.env
+WorkingDirectory=/opt/plc-kpi
+ExecStart=/opt/plc-kpi/.venv/bin/python /opt/plc-kpi/rtsp_stream.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
