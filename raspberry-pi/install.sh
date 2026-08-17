@@ -27,12 +27,20 @@ if ! id plc-kpi >/dev/null 2>&1; then
 fi
 
 install -d -o plc-kpi -g plc-kpi /opt/plc-kpi
+install -d -o plc-kpi -g plc-kpi /opt/plc-kpi/alert-state
 install -d -m 0755 /etc/plc-kpi
 install -m 0644 "${project_dir}/common/rtsp_stream.py" /opt/plc-kpi/rtsp_stream.py
+install -o plc-kpi -g plc-kpi -m 0755 \
+    "${script_dir}/notify-service-failure.sh" /opt/plc-kpi/notify-service-failure.sh
 install -m 0644 "${project_dir}/config/mediamtx.yml" /etc/plc-kpi/mediamtx.yml
 
 if [[ ! -f /etc/plc-kpi/shift-monitor.env ]]; then
     install -m 0644 "${project_dir}/config/shift-monitor.env.example" /etc/plc-kpi/shift-monitor.env
+fi
+
+if [[ ! -f /etc/plc-kpi/service-alert.env ]]; then
+    install -m 0600 "${project_dir}/config/service-alert.env.example" \
+        /etc/plc-kpi/service-alert.env
 fi
 
 python3 -m venv --system-site-packages /opt/plc-kpi/.venv

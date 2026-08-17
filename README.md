@@ -84,6 +84,27 @@ The installer:
 - Places configuration under `/etc/plc-kpi`.
 - Enables both services at boot with automatic restart.
 
+### Service failure emails
+
+Both systemd services can notify the existing n8n workflow immediately when they
+exit unsuccessfully. Planned stops and restarts do not alert. Only the first
+failure in an incident sends an email, so a restart loop cannot flood the mailbox.
+The alert latch resets after a later successful planned stop or restart.
+
+Configure the webhook in `/etc/plc-kpi/service-alert.env`:
+
+```text
+N8N_WEBHOOK=https://your-n8n.example/webhook/your-path
+```
+
+Protect the configuration and apply it with:
+
+```bash
+sudo chmod 600 /etc/plc-kpi/service-alert.env
+sudo systemctl daemon-reload
+sudo systemctl restart mediamtx.service shift-monitor.service
+```
+
 Check status and follow logs with:
 
 ```bash
